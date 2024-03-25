@@ -6,20 +6,21 @@
 //
 
 import Foundation
-import CreateML
 
 class DecisionTreeClassifier {
     
     func calculate_entropy (Y: [Double]) -> Double {
         
         let labels_counts = Y.unique()
-        let total_instances = Y.count
+        let total_instances = Double(Y.count)
+        
         var entropy = 0.0
         
 
         for label_count in labels_counts {
             
-            entropy += Double(label_count.1) / Double(total_instances) * log2(1 / ((Double(label_count.1) / Double(total_instances))))
+            entropy += Double(label_count.1) / total_instances * log2(1 / ((Double(label_count.1) / total_instances)))
+            
         }
         
         return entropy
@@ -65,6 +66,8 @@ class DecisionTreeClassifier {
         return y
         
     }
+    
+    
     
     
 }
