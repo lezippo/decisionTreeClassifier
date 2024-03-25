@@ -32,25 +32,65 @@ let data: [[Double]] = [
     [5, 1, 8]
 ]
 
-func split_on_feature (data: [[Double]], feat_index: Int) -> [Double: [[Double]]] {
+
+func split_on_feature (data: [[Double]], feat_index: Int) {
     
-    var feature_values = data.map { $0[feat_index] }
-    var unique_values = feature_values.unique()
+    let feature_values = data.map { $0[feat_index] }
+    let unique_values = feature_values.unique()
     
-    var split_nodes = {}
-    var eighted_entropy = 0
-    var total_instances = data.count
+    var split_nodes = [Double: Node]()
+    let weighted_entropy = 0
+    let total_instances = data.count
+    var node = Node()
+    var node_entropy = 0.0
     
-    var partitions = [Double: [[Double]]]()
+    var partition = [[Double]]()
     
     for (unique_value, _) in unique_values {
-        partitions[unique_value] = data.filter { ($0[feat_index] ) == unique_value }
+        partition = data.filter { ($0[feat_index] ) == unique_value }
+        node = Node(data: partition)
+        split_nodes[unique_value] = node
+        
+        let partition_y = get_y(data: partition)
+        node_entropy = calculate_entropy(Y: partition_y)
+        
+        print(partition, "\n")
+        print("Partition's entropy", node_entropy)
+        print("-----------------\n")
+        
+        partition.removeAll()
+        
     }
-    return partitions
+    
+    print(split_nodes)
+    
     
 }
 
-print(split_on_feature(data: data, feat_index: 1))
+func get_y(data: [[Double]]) -> [Double] {
+
+    let y = data.map { $0.last ?? 0 }
+    
+    return y
+    
+}
+
+func calculate_entropy (Y: [Double]) -> Double {
+    
+    let labels_counts = Y.unique()
+    let total_instances = Y.count
+    var entropy = 0.0
+    
+
+    for label_count in labels_counts {
+        
+        entropy += Double(label_count.1) / Double(total_instances) * log2(1 / ((Double(label_count.1) / Double(total_instances))))
+    }
+    
+    return entropy
+}
+
+split_on_feature(data: data, feat_index: 1)
 
 
 
