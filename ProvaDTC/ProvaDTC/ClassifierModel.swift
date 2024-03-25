@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CreateML
 
 class DecisionTreeClassifier {
     
@@ -52,8 +53,10 @@ class DecisionTreeClassifier {
         var eighted_entropy = 0
         var total_instances = data.count
         
-        for unique_value in unique_values {
-            
+        var partitions = [Double: [[Double]]]()
+        
+        for (unique_value, _) in unique_values {
+            partitions[unique_value] = data.filter { ($0[feat_index] ) == unique_value }
         }
         
     }
