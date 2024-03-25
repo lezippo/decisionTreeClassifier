@@ -43,7 +43,18 @@ class DecisionTreeClassifier {
 //
 //        return split_nodes, weighted_entropy
     
-    func split_on_feature () {
+    func split_on_feature (data: [[Double]], feat_index: Int) {
+        
+        var feature_values = data.map { $0[feat_index] }
+        var unique_values = feature_values.unique()
+        
+        var split_nodes = {}
+        var eighted_entropy = 0
+        var total_instances = data.count
+        
+        for unique_value in unique_values {
+            
+        }
         
     }
     

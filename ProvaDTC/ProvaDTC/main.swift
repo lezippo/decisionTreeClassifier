@@ -9,7 +9,18 @@ import Foundation
 
 print("Hello, World!")
 
-var arr: [Int] = [1,2,9,3,2,4,1,0,4,3]
+//var arr: [Int] = [1,2,9,3,2,4,1,0,4,3]
+//
+//print(arr.unique())
 
-print(arr.unique())
+let featIndex = 3;
+
+let data = [[1,2,9,3,2,4,1,0,4,3], [1,2,9,3,2,4,1,0,4,3], [1,2,9,3,2,4,1,0,4,3], [1,2,9,3,2,4,1,0,4,3], [1,2,9,3,2,4,1,0,4,3]]
+
+print(data)
+print("--------------------------------------------------")
+let featureValues = data.map { $0[featIndex] }
+
+print(featureValues)
+
 
