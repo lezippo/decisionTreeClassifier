@@ -17,28 +17,21 @@
 
 import Foundation
 
-class TreeNode {
+class Node {
     
-    var data: [Float]?
-    var feature_idx: Int
-    
-    var children: [String: TreeNode]?
-    //Dizionario in cui ho le key di tipo String e i dati di tipo TreeNode: ogni nodo ha un dizionario di figli. Quindi cerchiamo la key del figlio, non il pointer. In questo modo non sono ordinati, abbiamo solo la "relazione" di parentela
-    
-    var isLeaf: Bool
+    var data: [[Double]]?
+    var children: [String: Node]?
+    var splitOn: Int?
     var predClass: String?
+    var isLeaf: Bool
     
-    init(data: [Float]? = nil, feature_idx: Int, children: [String: TreeNode]? = nil, isLeaf: Bool = false, predClass: String? = nil) {
+    init(data: [[Double]]? = nil, children: [String: Node]? = nil, splitOn: Int? = nil, predClass: String? = nil, isLeaf: Bool = false) {
         self.data = data
-        self.feature_idx = feature_idx
         self.children = children
-        self.isLeaf = isLeaf
+        self.splitOn = splitOn
         self.predClass = predClass
+        self.isLeaf = isLeaf
     }
     
     
-    
 }
-
-
-

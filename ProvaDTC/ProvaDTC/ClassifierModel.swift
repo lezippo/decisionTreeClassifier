@@ -57,7 +57,11 @@ class DecisionTreeClassifier {
         
         for (unique_value, _) in unique_values {
             partitions[unique_value] = data.filter { ($0[feat_index] ) == unique_value }
+//            var node = Node(data: data)
+            
         }
+        
+        
         
     }
     
