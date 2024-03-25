@@ -21,7 +21,7 @@ extension Array where Element: Hashable {
                 
             } else {
                 
-//                uniqueElementsArr.append((element, 1))
+                uniqueElementsArr.append((element, 1))
             }
         }
         
