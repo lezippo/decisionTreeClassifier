@@ -9,6 +9,12 @@ import Foundation
 
 class DecisionTreeClassifier {
     
+    var root: Node
+    
+    init(root: Node) {
+        self.root = root
+    }
+    
     func calculate_entropy (Y: [Double]) -> Double {
         
         let labels_counts = Y.unique()
@@ -33,7 +39,7 @@ class DecisionTreeClassifier {
         
         var split_nodes = [Double: Node]() //dizionario di key double e dato Node
         var weighted_entropy = 0.0
-        var total_instances = data.count
+        let total_instances = data.count
         var node = Node()
         var node_entropy = 0.0
         var partition_y = [Double] ()
@@ -66,6 +72,127 @@ class DecisionTreeClassifier {
         return y
         
     }
+    
+    func meet_criteria (node: Node) -> Bool {
+        // DA TESTARE
+        let y = get_y(data: node.data ?? [])
+        
+        if calculate_entropy(Y: y) == 0 {
+            
+            return true
+            
+        } else {
+            
+            return false
+            
+        }
+        
+    }
+    
+    func get_pred_class(Y: [Double]) -> Double {
+        // DA TESTARE
+        var labels = [Double]()
+        var labels_counts = [Int]()
+        for tupla in Y.unique() {
+            labels.append(tupla.0)
+            labels_counts.append(tupla.1)
+        }
+        
+        guard var index = labels_counts.max() else { return 0 } // ????????????????????
+        
+        if index == 0 {
+            return labels[index]
+        } else {
+            return labels[index-1]
+        }
+    }
+    
+    func best_split (node: Node) {
+        // DA TESTARE
+        if meet_criteria(node: node) {
+            node.isLeaf = true
+            var y = get_y(data: node.data ?? [])
+            node.predClass = get_pred_class(Y: y)
+            return
+        }
+        
+        var index_feature_split = -1
+        var min_entropy = 1.0
+        
+        var split_nodes: [Double : Node]
+        var weighted_entropy: Double
+        var child_nodes: [Double : Node] = [:]
+        
+        if let count = node.data?[0].count {
+            
+            for i in 0..<count - 1 {
+                
+                var splits = split_on_feature(data: node.data ?? [], feat_index: i)
+                split_nodes = splits.0
+                weighted_entropy = splits.1
+                
+                if weighted_entropy < min_entropy {
+                    child_nodes = split_nodes
+                    min_entropy = weighted_entropy
+                    index_feature_split = i
+                    
+                }
+            }
+            
+            node.children = child_nodes
+            node.splitOn = index_feature_split
+            
+            for child_node in child_nodes.values {
+                best_split(node: child_node)
+            }
+                
+        } else {
+            
+            // Handle the case where node.data is nil
+        }
+        
+    }
+    
+    
+    func fit(X: [[Double]], Y: [Double]) {
+        // DA TESTARE
+        
+        var data = combine(X: X, Y: Y)
+        
+        root.data = data
+        
+        best_split(node: root)
+    }
+    
+
+    func traverse_tree (x: [Double] /* TESTAAAAAAAAAAA */, node: Node) -> Double {
+        
+        if node.isLeaf {
+            
+            return node.predClass ?? 0
+        }
+        
+        var feat_value = x[node.splitOn ?? 0]
+        
+        var predicted_class = traverse_tree(x: x, node: node.children?[feat_value] ?? fatalError("AOOOOOO") as! Node)
+        //UN BOTTO DI PROBLEMI CON STA FUNC RICORSIVA
+        return predicted_class
+    }
+    
+
+    
+    func predict(X: [[Double]]) {
+        
+        var predictions = [Double] ()
+        
+        for row in X {
+            predictions.append(traverse_tree(x: row, node: root))
+        }
+        
+    }
+    
+
+
     
     
     
