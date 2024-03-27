@@ -86,19 +86,22 @@ let rootNode = Node()
     let classifier = DecisionTreeClassifier(root: rootNode)
     
     // Generate some example data (replace with your actual dataset)
-    let X: [[Double]] = [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]]
-    let Y: [Double] = [0.0, 1.0, 0.0] // Example target labels
+let X: [[Double]] = [[1.0, 1, 0, 1, 0, 0, 1, 1], [1.0, 1, 0, 1, 1, 1, 1, 1], [1.0, 0, 0, 1, 0, 0, 1, 0], [0.0, 1, 0, 0, 0, 0, 1, 0], [1.0, 0, 0, 1, 0, 0, 1, 0]]
+    let Y: [Double] = [0.0, 1.0, 0, 1, 0] // Example target labels
     
     // Fit the classifier with the example data
     classifier.fit(X: X, Y: Y)
     
     // Generate some test data to make predictions (replace with your actual test dataset)
-    let testData: [[Double]] = [[2.0, 3.0], [4.0, 5.0]]
-    
-    // Make predictions using the trained classifier
+    let testData: [[Double]] = [[1.0, 6.0], [5.0, 6.0]]
+
+
+//    // Make predictions using the trained classifier
     let predictions = classifier.predict(X: testData)
-    
-    // Output the predictions
+//
+//    // Output the predictions
     print("Predictions:", predictions)
+
+
 
 

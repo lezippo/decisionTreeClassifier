@@ -98,7 +98,7 @@ class DecisionTreeClassifier {
             labels_counts.append(tupla.1)
         }
         
-        guard var index = labels_counts.max() else { return 0 } // ????????????????????
+        guard let index = labels_counts.max() else { return 0 } // ????????????????????
         
         if index == 0 {
             return labels[index]
@@ -111,7 +111,7 @@ class DecisionTreeClassifier {
         // DA TESTARE
         if meet_criteria(node: node) {
             node.isLeaf = true
-            var y = get_y(data: node.data ?? [])
+            let y = get_y(data: node.data ?? [])
             node.predClass = get_pred_class(Y: y)
             return
         }
@@ -127,7 +127,7 @@ class DecisionTreeClassifier {
             
             for i in 0..<count - 1 {
                 
-                var splits = split_on_feature(data: node.data ?? [], feat_index: i)
+                let splits = split_on_feature(data: node.data ?? [], feat_index: i)
                 split_nodes = splits.0
                 weighted_entropy = splits.1
                 
@@ -157,7 +157,7 @@ class DecisionTreeClassifier {
     func fit(X: [[Double]], Y: [Double]) {
         // DA TESTARE
         
-        var data = combine(X: X, Y: Y)
+        let data = combine(X: X, Y: Y)
         
         root.data = data
         
@@ -169,25 +169,30 @@ class DecisionTreeClassifier {
         
         if node.isLeaf {
             
-            return node.predClass ?? 0
+            return node.predClass ?? -1
         }
         
-        var feat_value = x[node.splitOn ?? 0]
+        var feat_value = x[node.splitOn ?? -1]
+        print("traverse")
         
-        var predicted_class = traverse_tree(x: x, node: node.children?[feat_value] ?? fatalError("AOOOOOO") as! Node)
+        print(node.children?[feat_value] ?? "missing")
+        var predicted_class = traverse_tree(x: x, node: node.children![feat_value] ?? fatalError("AOOOOOO") as! Node)
+        
         //UN BOTTO DI PROBLEMI CON STA FUNC RICORSIVA
         return predicted_class
     }
     
 
     
-    func predict(X: [[Double]]) {
+    func predict(X: [[Double]])-> [Double] {
         
         var predictions = [Double] ()
         
         for row in X {
             predictions.append(traverse_tree(x: row, node: root))
         }
+        
+        return predictions
         
     }
     
