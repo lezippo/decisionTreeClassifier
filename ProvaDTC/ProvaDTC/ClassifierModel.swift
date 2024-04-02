@@ -98,13 +98,17 @@ class DecisionTreeClassifier {
             labels_counts.append(tupla.1)
         }
         
-        guard let index = labels_counts.max() else { return 0 } // ????????????????????
+/*        guard let index = labels_counts.max() else { return 0 }*/ // ????????????????????
         
-        if index == 0 {
-            return labels[index]
-        } else {
-            return labels[index-1]
-        }
+        let index = labels_counts.firstIndex(of: labels_counts.max() ?? 0) ?? 0
+
+//        if index == 0 {
+//            return labels[index]
+//        } else {
+//            return labels[index-1]
+//        }
+        
+        return labels[index]
     }
     
     func best_split (node: Node) {
