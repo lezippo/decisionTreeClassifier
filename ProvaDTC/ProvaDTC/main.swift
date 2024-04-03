@@ -22,7 +22,7 @@ let X: [[Double]] = [[1.0, 1, 0, 1, 0, 0, 1, 1], [1.0, 1, 0, 1, 1, 1, 1, 1], [1.
     classifier.fit(X: X, Y: Y)
     
     // Generate some test data to make predictions (replace with your actual test dataset)
-    let testData: [[Double]] = [[1.0, 1, 0, 1, 0, 0, 1, 1], [1.0, 1, 0, 1, 0, 0, 1, 1]]
+    let testData: [[Double]] = [[0, 1, 1, 1, 0, 0, 1, 0], [1.0, 0, 0, 1, 0, 0, 0, 1]]
 
 
 //    // Make predictions using the trained classifier

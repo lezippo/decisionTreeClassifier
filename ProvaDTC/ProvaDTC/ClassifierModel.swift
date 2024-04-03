@@ -9,63 +9,111 @@ import Foundation
 
 class DecisionTreeClassifier {
     
+    /*
+     A decision tree classifier implementation.
+
+     This class builds a decision tree based on the provided training data and predicts the class labels for new instances.
+
+     - Note: This implementation supports binary classification.
+
+     */
+    
+    // The root node of the decision tree.
     var root: Node
     
     init(root: Node) {
+        
+        /*
+        Initializes the decision tree classifier with a root node.
+            
+        - Parameter root: The root node of the decision tree.
+        */
         self.root = root
+        
     }
     
-    func calculate_entropy (Y: [Double]) -> Double {
+    func calculateEntropy (Y: [Double]) -> Double {
         
-        let labels_counts = Y.unique()
-        let total_instances = Double(Y.count)
+        /*
+        Calculates the entropy of a set of labels.
+             
+        - Parameter Y: An array containing the labels.
+         
+        - Returns: The entropy of the label set.
+         
+        - Example: data = [ [ 0, 1, 0, 0 ],
+                            [ 1, 0, 0, 1 ],
+                            [ 1, 1, 1, 0 ] ]
+         
+                   calculateEntropy(Y: getY(data))
+         
+                   assuming that getY is a function that returns the last column of the matrix data, calculate entropy
+                   will calculate the entropy of this set of samples based on the last column. The entropy measures how
+                   "pure" is the set. The goal of the algorithm is dividing the original set of samples in subsets minimizing
+                   the entropy: in this way we will obtain subsets marked with the same feature. In this case, chosen the 
+                   last colmn, the best split is this : subsetsZero = [ [ 0, 1, 0, 0 ], [ 1, 1, 1, 0 ] ]
+                                                          subsetOne = [ [ 1, 0, 0, 1 ] ]
+        */
+        
+        let labelsCounts = Y.unique()
+        let totalInstances = Double(Y.count)
         
         var entropy = 0.0
         
 
-        for label_count in labels_counts {
+        for labelCount in labelsCounts {
             
-            entropy += Double(label_count.1) / total_instances * log2(1 / ((Double(label_count.1) / total_instances)))
+            entropy += Double(labelCount.1) / totalInstances * log2(1 / ((Double(labelCount.1) / totalInstances)))
             
         }
         
         return entropy
     }
     
-    func split_on_feature (data: [[Double]], feat_index: Int) -> ([Double : Node], Double) {
+    func splitOnFeature (data: [[Double]], featIndex: Int) -> ([Double : Node], Double) {
         
-        let feature_values = data.map { $0[feat_index] }
-        let unique_values = feature_values.unique()
+        /*
+         Splits the dataset in subsets, based on a specific feature
+         
+         - Parameter:      data: the dataset to split
+                      featIndex: the index of the feature used to split the dataset
+         
+         - Returns: tuple made by: a dictionary made by the children nodes that contain the subsets yet created
+                                   the weighted entropy of the split
+         
+         - Note: the keys of the dictionary are the values of the feature
+         */
         
-        var split_nodes = [Double: Node]() //dizionario di key double e dato Node
-        var weighted_entropy = 0.0
-        let total_instances = data.count
+        let featureValues = data.map { $0[featIndex] }
+        let uniqueValues = featureValues.unique()
+        
+        var splitNodes = [Double: Node]() //dizionario di key double e dato Node
+        var weightedEntropy = 0.0
+        let totalInstances = data.count
         var node = Node()
-        var node_entropy = 0.0
-        var partition_y = [Double] ()
+        var nodeEntropy = 0.0
+        var partitionY = [Double] ()
         var partition = [[Double]]()
         
-        for (unique_value, _) in unique_values {
+        for (uniqueValue, _) in uniqueValues {
             
-            partition = data.filter { ($0[feat_index] ) == unique_value }
+            partition = data.filter { ($0[featIndex] ) == uniqueValue }
             node = Node(data: partition)
-            split_nodes[unique_value] = node
-            partition_y = get_y(data: partition)
+            splitNodes[uniqueValue] = node
+            partitionY = getY(data: partition)
             
-            node_entropy = calculate_entropy(Y: partition_y)
-            weighted_entropy += (Double(partition.count) / Double(total_instances)) * node_entropy
+            nodeEntropy = calculateEntropy(Y: partitionY)
+            weightedEntropy += (Double(partition.count) / Double(totalInstances)) * nodeEntropy
             
             partition.removeAll()
             
         }
         
-        print(split_nodes)
-        
-        return (split_nodes, weighted_entropy)
+        return (splitNodes, weightedEntropy)
     }
     
     
-    func get_y(data: [[Double]]) -> [Double] {
+    func getY(data: [[Double]]) -> [Double] {
 
         let y = data.map { $0.last ?? 0 }
         
@@ -73,11 +121,11 @@ class DecisionTreeClassifier {
         
     }
     
-    func meet_criteria (node: Node) -> Bool {
+    func meetCriteria (node: Node) -> Bool {
         // DA TESTARE
-        let y = get_y(data: node.data ?? [])
+        let y = getY(data: node.data ?? [])
         
-        if calculate_entropy(Y: y) == 0 {
+        if calculateEntropy(Y: y) == 0 {
             
             return true
             
@@ -89,18 +137,18 @@ class DecisionTreeClassifier {
         
     }
     
-    func get_pred_class(Y: [Double]) -> Double {
+    func getPredClass(Y: [Double]) -> Double {
         // DA TESTARE
         var labels = [Double]()
-        var labels_counts = [Int]()
+        var labelsCounts = [Int]()
         for tupla in Y.unique() {
             labels.append(tupla.0)
-            labels_counts.append(tupla.1)
+            labelsCounts.append(tupla.1)
         }
         
 /*        guard let index = labels_counts.max() else { return 0 }*/ // ????????????????????
         
-        let index = labels_counts.firstIndex(of: labels_counts.max() ?? 0) ?? 0
+        let index = labelsCounts.firstIndex(of: labelsCounts.max() ?? 0) ?? 0
 
 //        if index == 0 {
 //            return labels[index]
@@ -111,43 +159,43 @@ class DecisionTreeClassifier {
         return labels[index]
     }
     
-    func best_split (node: Node) {
+    func bestSplit (node: Node) {
         // DA TESTARE
-        if meet_criteria(node: node) {
+        if meetCriteria(node: node) {
             node.isLeaf = true
-            let y = get_y(data: node.data ?? [])
-            node.predClass = get_pred_class(Y: y)
+            let y = getY(data: node.data ?? [])
+            node.predClass = getPredClass(Y: y)
             return
         }
         
-        var index_feature_split = -1
-        var min_entropy = 1.0
+        var indexFeatureSplit = -1
+        var minEntropy = 1.0
         
-        var split_nodes: [Double : Node]
-        var weighted_entropy: Double
-        var child_nodes: [Double : Node] = [:]
+        var splitNodes: [Double : Node]
+        var weightedEntropy: Double
+        var childNodes: [Double : Node] = [:]
         
         if let count = node.data?[0].count {
             
             for i in 0..<count - 1 {
                 
-                let splits = split_on_feature(data: node.data ?? [], feat_index: i)
-                split_nodes = splits.0
-                weighted_entropy = splits.1
+                let splits = splitOnFeature(data: node.data ?? [], featIndex: i)
+                splitNodes = splits.0
+                weightedEntropy = splits.1
                 
-                if weighted_entropy < min_entropy {
-                    child_nodes = split_nodes
-                    min_entropy = weighted_entropy
-                    index_feature_split = i
+                if weightedEntropy < minEntropy {
+                    childNodes = splitNodes
+                    minEntropy = weightedEntropy
+                    indexFeatureSplit = i
                     
                 }
             }
             
-            node.children = child_nodes
-            node.splitOn = index_feature_split
+            node.children = childNodes
+            node.splitOn = indexFeatureSplit
             
-            for child_node in child_nodes.values {
-                best_split(node: child_node)
+            for child_node in childNodes.values {
+                bestSplit(node: child_node)
             }
                 
         } else {
@@ -165,25 +213,23 @@ class DecisionTreeClassifier {
         
         root.data = data
         
-        best_split(node: root)
+        bestSplit(node: root)
     }
     
 
-    func traverse_tree (x: [Double] /* TESTAAAAAAAAAAA */, node: Node) -> Double {
+    func traverseTree (x: [Double] /* TESTAAAAAAAAAAA */, node: Node) -> Double {
         
         if node.isLeaf {
             
             return node.predClass ?? -1
         }
         
-        var feat_value = x[node.splitOn ?? -1]
-        print("traverse")
+        let featValue = x[node.splitOn ?? -1]
         
-        print(node.children?[feat_value] ?? "missing")
-        var predicted_class = traverse_tree(x: x, node: node.children![feat_value] ?? fatalError("AOOOOOO") as! Node)
+        let predictedClass = traverseTree(x: x, node: node.children![featValue] ?? fatalError("AOOOOOO") as! Node )
         
         //UN BOTTO DI PROBLEMI CON STA FUNC RICORSIVA
-        return predicted_class
+        return predictedClass
     }
     
 
@@ -193,7 +239,7 @@ class DecisionTreeClassifier {
         var predictions = [Double] ()
         
         for row in X {
-            predictions.append(traverse_tree(x: row, node: root))
+            predictions.append(traverseTree(x: row, node: root))
         }
         
         return predictions
