@@ -16,7 +16,7 @@ The code only works with categorical features. Basically, once a root node is in
 We often hear about Decision Trees when it comes to machine learning but the concept behind them is so simple. Have you ever encountered a chart like this? 
 
 Well, Decision trees are something like that. First of all
-
+![TreeStructure](https://github.com/lezippo/decisionTreeClassifier/assets/148436988/08f9351d-ac6c-4846-85b4-1377816ac54d)
 ## Code Structure
 
 ### Node model
