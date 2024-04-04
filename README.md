@@ -2,11 +2,11 @@
 This repository contains an implementation of a simple Decision Tree Classifier, entirely made in Swift
 
 ## Table of contents
-[Introduction](#introduction)
+[Introduction](##introduction)
 
-[Code structure](#code_structure)
+[Code structure](##code-structure)
 
-[Example](#example)
+[Example](##example)
 
 ## Introduction
 ### What is a Decision Tree?
