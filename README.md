@@ -20,7 +20,7 @@ We often hear about Decision Trees when it comes to machine learning but the con
 The basic unit of a tree is a node. It's made by 2 parts: some data and something that indicates the next node in the structure. 
 Linking the nodes like in the picture above we can create trees: we start from a root and we link it to its children. Each children node can have some childrens. If a node has no childrean it is called leaf node.
 
-Decision trees are 
+Decision trees are used to classify things
 
 The best way to understand them is using a chart:
 
