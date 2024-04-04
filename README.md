@@ -24,10 +24,10 @@ Decision trees are used to classify things
 
 The best way to understand them is using a chart:
 
+![DecisionTreeChart](https://github.com/lezippo/decisionTreeClassifier/assets/148436988/2e444405-9c4b-4f13-8bdc-00d503597feb)
 
-
-They are often used to classify things: they start from a dataset and start divideding the the dataset in subsets verifying some conditions. In the example we can see that the dataset of the cat and dogs has been split using the feature "ears": it means that we have created two nodes, children of the first one, and in one we have allocated all the data points, i. e. cat or dog of the dataset, having the floppy ears, in the other one insthead the dog or cat with pointy ears
-
+In this example we have to classify circles. Basically the decision tree has the goal of assigning labels ("cirle" or "not circle") to the elements of the dataset.
+It starts splitting the dataset verifying some conditions. The split are evaluated using some metrics, i. e. the trees automatically tries every possible split and the decides to keep the one with the best "score". Repeating this process the tree obtains subsets of the original dataset as pure as possible. So it assigns to all the element of the subset a label.
 ## Code Structure
 
 ### Node model
