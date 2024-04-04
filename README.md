@@ -1,6 +1,8 @@
 # Decision Tree Classifier
 This repository contains an implementation of a simple Decision Tree Classifier, entirely made in Swift
 
+The code works with only categorical features. Basically, once a root node is initialized, to train the model on a given dataset the latter is allocated in full as the data of the root node. Then we proceed by splitting the dataset in the node on each possible feature, measuring the entropy of the split. The goal of the algorithm is to minimize the entropy, so as to obtain subsets of the original dataset that are as pure as possible. Once all the possible splits have been evaluated, the one that minimizes entropy is chosen and the children are proceeded recursively. the index of the feature on which the dataset was split is saved in the spiltOn of the node. Once the subsets are pure, the nodes reached are marked as leaf nodes and then the process ends. This saves step by step how to split the dataset into each node. To label new data then it is therefore sufficient to have it follow the path saved in the nodes; ones a leaf is reached the data ara labelled
+
 ## Table of contents
 [Introduction](#introduction)
 
@@ -43,5 +45,46 @@ We often hear about Decision Trees when it comes to machine learning but the con
 7. **Predicting Class Labels**: The `predict` function predicts the class labels for a set of input feature vectors using the trained decision tree model. It iterates through each feature vector in the input array `X` and calls the `traverseTree` function to predict the class label.
 
 ## Example
+
+
+Create an instance of DecisionTreeClassifier with the root node
+```
+let rootNode = Node()
+
+let classifier = DecisionTreeClassifier(root: rootNode)
+```   
+Generate some example data
+
+```
+let X: [[Double]] = [ [1, 1, 0, 1, 0, 0, 1, 1],
+                      [1, 1, 0, 1, 1, 1, 1, 1],
+                      [1, 0, 0, 1, 0, 0, 1, 0],
+                      [0, 1, 0, 0, 0, 0, 1, 0],
+                      [1, 0, 0, 1, 0, 0, 1, 0] ]
+
+let Y: [Double] = [ 0,
+                    1,
+                    0,
+                    1,
+                    0 ]
+```
+
+Fit the classifier with the example data
+```
+classifier.fit(X: X, Y: Y)
+```
+   
+Generate some test data to make predictions
+
+```
+let testData: [[Double]] = [ [0, 1, 1, 1, 0, 0, 1, 0],
+                             [1, 0, 0, 1, 0, 0, 0, 1] ]
+```
+Make predictions using the trained classifier
+```
+let predictions = classifier.predict(X: testData)
+```
+
+Output: Predictions: [1.0, 0.0]
 
 
