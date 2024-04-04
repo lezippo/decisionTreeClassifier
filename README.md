@@ -42,8 +42,6 @@ We often hear about Decision Trees when it comes to machine learning but the con
 
 7. **Predicting Class Labels**: The `predict` function predicts the class labels for a set of input feature vectors using the trained decision tree model. It iterates through each feature vector in the input array `X` and calls the `traverseTree` function to predict the class label.
 
-Overall, this DecisionTreeClassifier class encapsulates the functionality required to train a binary decision tree model, make predictions, and evaluate its performance.
-
 ## Example
 
 
