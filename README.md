@@ -13,10 +13,21 @@ The code only works with categorical features. Basically, once a root node is in
 ## Introduction to Decision Trees
 ### What is a Decision Tree?
 
-We often hear about Decision Trees when it comes to machine learning but the concept behind them is so simple. Have you ever encountered a chart like this? 
+We often hear about Decision Trees when it comes to machine learning but the concept behind them is so simple. First of all they're called trees for the data structure they rely on
 
-Well, Decision trees are something like that. First of all
-![TreeStructure](https://github.com/lezippo/decisionTreeClassifier/assets/148436988/08f9351d-ac6c-4846-85b4-1377816ac54d)
+![TreeStructure](https://github.com/lezippo/decisionTreeClassifier/assets/148436988/425fb5b3-1024-4723-a3f8-2950ee6a5844)
+
+The basic unit of a tree is a node. It's made by 2 parts: some data and something that indicates the next node in the structure. 
+Linking the nodes like in the picture above we can create trees: we start from a root and we link it to its children. Each children node can have some childrens. If a node has no childrean it is called leaf node.
+
+Decision trees are 
+
+The best way to understand them is using a chart:
+
+
+
+They are often used to classify things: they start from a dataset and start divideding the the dataset in subsets verifying some conditions. In the example we can see that the dataset of the cat and dogs has been split using the feature "ears": it means that we have created two nodes, children of the first one, and in one we have allocated all the data points, i. e. cat or dog of the dataset, having the floppy ears, in the other one insthead the dog or cat with pointy ears
+
 ## Code Structure
 
 ### Node model
