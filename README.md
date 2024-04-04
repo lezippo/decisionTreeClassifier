@@ -4,7 +4,7 @@ This repository contains an implementation of a simple Decision Tree Classifier,
 ## Table of contents
 [Introduction](#introduction)
 
-[Code structure](#codestructure)
+[Code structure](#code_structure)
 
 [Example](#example)
 
