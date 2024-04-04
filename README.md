@@ -4,16 +4,18 @@ This repository contains an implementation of a simple Decision Tree Classifier,
 The code works with only categorical features. Basically, once a root node is initialized, to train the model on a given dataset the latter is allocated in full as the data of the root node. Then we proceed by splitting the dataset in the node on each possible feature, measuring the entropy of the split. The goal of the algorithm is to minimize the entropy, so as to obtain subsets of the original dataset that are as pure as possible. Once all the possible splits have been evaluated, the one that minimizes entropy is chosen and the children are proceeded recursively. the index of the feature on which the dataset was split is saved in the spiltOn of the node. Once the subsets are pure, the nodes reached are marked as leaf nodes and then the process ends. This saves step by step how to split the dataset into each node. To label new data then it is therefore sufficient to have it follow the path saved in the nodes; ones a leaf is reached the data ara labelled
 
 ## Table of contents
-[Introduction](#introduction)
+[Introduction to Decision Trees](#introduction-to-decision-trees)
 
 [Code structure](#code-structure)
 
 [Example](#example)
 
-## Introduction
+## Introduction to Decision Trees
 ### What is a Decision Tree?
 
-We often hear about Decision Trees when it comes to machine learning but the concept behind them is so simple
+We often hear about Decision Trees when it comes to machine learning but the concept behind them is so simple. Have you ever encountered a chart like this? 
+
+Well, Decision trees are something like that. First of all
 
 ## Code Structure
 
