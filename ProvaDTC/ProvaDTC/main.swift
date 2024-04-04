@@ -7,8 +7,6 @@
 
 import Foundation
 
-print("Hello, World!")
-
 let rootNode = Node()
     
 // Create an instance of DecisionTreeClassifier with the root node
